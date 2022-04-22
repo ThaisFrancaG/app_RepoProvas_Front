@@ -1,17 +1,16 @@
+/* eslint-disable no-throw-literal */
+import api from "../services/api";
+
 interface FormData {
   email: string;
   password: string;
   passwordCheck?: string;
 }
-function checkFormInfo(data: FormData, origin: string) {
+async function checkFormInfo(data: FormData, origin: string) {
   console.log(data);
   console.log(origin);
-  //eu posso mapear toda a data recebida, independente do tamanho, para conferir se ela segue as regras
-
-  //primeiro conferir sew todos os dados foram preenchidos.
 
   let checkCompletion = Object.values(data);
-  console.log(checkCompletion);
 
   for (let i = 0; i < checkCompletion.length; i++) {
     if (checkCompletion[i].length === 0) {
@@ -33,7 +32,14 @@ function checkFormInfo(data: FormData, origin: string) {
         message: "Password and check must be the same",
       };
     }
+    await signUp(data);
   }
+}
+
+async function signUp(data: FormData) {
+  const response = await api.signUp(data);
+
+  console.log(response);
 }
 
 const authFunctions = {

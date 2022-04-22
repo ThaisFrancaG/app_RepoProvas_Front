@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import api from "../../services/api";
-import { TextField, Box, Alert, Collapse } from "@mui/material";
+import { TextField, Alert, Collapse } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import authFunctions from "../../components/authForm";
 import * as FormStyles from "./style";
 
@@ -26,7 +23,7 @@ export default function SignUp() {
     setLoading(true);
     setSubmitError(false);
     try {
-      authFunctions.checkFormInfo(signUpData, "signUp");
+      await authFunctions.checkFormInfo(signUpData, "signUp");
     } catch (error) {
       setAlertMessage(error.message);
       setSubmitError(true);
@@ -67,7 +64,9 @@ export default function SignUp() {
         Submit
       </LoadingButton>
       <Collapse in={submitError}>
-        <Alert severity="error">{alertMessage}</Alert>
+        <Alert variant="filled" severity="error">
+          {alertMessage}
+        </Alert>
       </Collapse>
     </FormStyles.FormContainer>
   );
