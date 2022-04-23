@@ -17,7 +17,7 @@ interface AuthType {
 }
 
 async function signUp(signUpData: AuthType) {
-  return await axios.post(`${BASE_URL}/sign-up`, signUpData);
+  await axios.post(`${BASE_URL}/sign-up`, signUpData);
 }
 const api = { signUp };
 export default api;

@@ -5,11 +5,10 @@ import { LoadingButton } from "@mui/lab";
 import authFunctions from "../../components/authForm";
 import * as FormStyles from "./style";
 
-export default function SignUp() {
-  const [signUpData, setSignUpData] = useState({
+export default function SignIn() {
+  const [signInData, setSignUpData] = useState({
     email: "",
     password: "",
-    passwordCheck: "",
   });
   const [loading, setLoading] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
@@ -17,14 +16,14 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   function handleInputChange(value: string, label: string) {
-    setSignUpData({ ...signUpData, [label]: value });
+    setSignUpData({ ...signInData, [label]: value });
   }
 
   async function handleClick() {
     setLoading(true);
     setSubmitError(false);
     try {
-      await authFunctions.checkFormInfo(signUpData, "signUp");
+      await authFunctions.checkFormInfo(signInData, "signIn");
       navigate("/");
     } catch (error) {
       if (error.response) {
@@ -43,23 +42,17 @@ export default function SignUp() {
         defaultValue="Email"
         id="email"
         label="Email"
-        value={signUpData.email}
+        value={signInData.email}
         onChange={(e) => handleInputChange(e.target.value, e.target.id)}
       />
       <TextField
         defaultValue="Password"
         id="password"
         label="Password"
-        value={signUpData.password}
+        value={signInData.password}
         onChange={(e) => handleInputChange(e.target.value, e.target.id)}
       />
-      <TextField
-        defaultValue="Confirm Password"
-        id="passwordCheck"
-        label="Confirm Password"
-        value={signUpData.passwordCheck}
-        onChange={(e) => handleInputChange(e.target.value, e.target.id)}
-      />
+
       <LoadingButton
         size="small"
         onClick={() => handleClick()}

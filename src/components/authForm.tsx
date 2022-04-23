@@ -37,9 +37,7 @@ async function checkFormInfo(data: FormData, origin: string) {
 }
 
 async function signUp(data: FormData) {
-  const response = await api.signUp(data);
-
-  console.log(response);
+  await api.signUp(data);
 }
 
 const authFunctions = {
