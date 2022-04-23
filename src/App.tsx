@@ -3,15 +3,18 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import SignUp from "./pages/UserAuth/SignUpIndex";
 import SignIn from "./pages/UserAuth/SignInIndex";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

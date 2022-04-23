@@ -7,9 +7,6 @@ interface FormData {
   passwordCheck?: string;
 }
 async function checkFormInfo(data: FormData, origin: string) {
-  console.log(data);
-  console.log(origin);
-
   let checkCompletion = Object.values(data);
 
   for (let i = 0; i < checkCompletion.length; i++) {
@@ -34,10 +31,19 @@ async function checkFormInfo(data: FormData, origin: string) {
     }
     await signUp(data);
   }
+  if (origin === "signIn") {
+    const token = await signIn(data);
+    return token.data;
+  }
 }
 
 async function signUp(data: FormData) {
   await api.signUp(data);
+}
+
+async function signIn(data: FormData) {
+  const auth = await api.signIn(data);
+  return auth;
 }
 
 const authFunctions = {

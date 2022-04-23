@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { TextField, Alert, Collapse } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import authFunctions from "../../components/authForm";
+import useAuth from "../../hooks/userAuth";
 import * as FormStyles from "./style";
 
 export default function SignIn() {
@@ -14,6 +15,7 @@ export default function SignIn() {
   const [alertMessage, setAlertMessage] = React.useState("");
   const [submitError, setSubmitError] = React.useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   function handleInputChange(value: string, label: string) {
     setSignUpData({ ...signInData, [label]: value });
@@ -23,8 +25,9 @@ export default function SignIn() {
     setLoading(true);
     setSubmitError(false);
     try {
-      await authFunctions.checkFormInfo(signInData, "signIn");
-      navigate("/");
+      const token = await authFunctions.checkFormInfo(signInData, "signIn");
+      login(token);
+      //navigate("/");
     } catch (error) {
       if (error.response) {
         setAlertMessage(error.response.data);
