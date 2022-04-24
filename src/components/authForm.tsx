@@ -11,7 +11,6 @@ async function checkFormInfo(data: FormData, origin: string) {
 
   for (let i = 0; i < checkCompletion.length; i++) {
     if (checkCompletion[i].length === 0) {
-      console.log("chegou no erro");
       throw { type: "incomplete", message: "Please, fill all fields" };
     }
   }

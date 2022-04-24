@@ -24,5 +24,12 @@ async function signIn(signInData: AuthType) {
   const token = await axios.post(`${BASE_URL}/sign-in`, signInData);
   return token;
 }
-const api = { signUp, signIn };
+
+async function logOut(token: string) {
+  console.log(token);
+  const config = authData(token);
+  await axios.post(`${BASE_URL}/log-out`, token, config);
+}
+
+const api = { signUp, signIn, logOut };
 export default api;
