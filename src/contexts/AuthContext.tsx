@@ -7,10 +7,7 @@ interface ContextState {
 }
 const AuthContext = createContext<ContextState>({} as ContextState);
 
-console.log(AuthContext);
-
 export function AuthProvider({ children }) {
-  console.log(children);
   const persistedAuth = JSON.parse(localStorage.getItem("auth"));
   const [auth, setAuth] = useState(persistedAuth);
 
