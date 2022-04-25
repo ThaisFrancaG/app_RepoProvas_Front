@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import React, { useState } from "react";
 import useAuth from "../../../hooks/userAuth";
 import logo from "../../../assets/images/logo.png";
@@ -9,13 +8,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import api from "../../../services/api";
 import { useNavigate } from "react-router-dom";
+import * as headerStyle from "./style";
+import SearchOptions from "./TestsOptions";
+import SearchBar from "./SearchBar";
 
 export default function MainHeader() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const { auth } = useAuth();
+  const [filter, setFilter] = useState("disciplines");
   const navigate = useNavigate();
   async function logOut() {
-    console.log("chegou");
     try {
       await api.logOut(auth);
     } catch (error) {
@@ -25,13 +27,18 @@ export default function MainHeader() {
     setOpen(false);
     navigate("/");
   }
+
   return (
-    <HeaderConteiner>
-      <InfoContainer>
-        <LogoContainer>
+    <headerStyle.HeaderConteiner>
+      <headerStyle.InfoContainer>
+        <headerStyle.LogoContainer>
           <img src={logo} alt="logo" />
-        </LogoContainer>
-        <LogoutIcon sx={{ fontSize: 60 }} onClick={() => setOpen(true)} />
+        </headerStyle.LogoContainer>
+        <LogoutIcon
+          color="primary"
+          sx={{ fontSize: 60 }}
+          onClick={() => setOpen(true)}
+        />
         <Dialog
           open={open}
           aria-labelledby="alert-dialog-title"
@@ -48,33 +55,9 @@ export default function MainHeader() {
             </Button>
           </DialogActions>
         </Dialog>
-      </InfoContainer>
-    </HeaderConteiner>
+      </headerStyle.InfoContainer>
+      <SearchBar filter={filter} />
+      <SearchOptions filter={filter} setFilter={setFilter} />
+    </headerStyle.HeaderConteiner>
   );
 }
-
-const HeaderConteiner = styled.div`
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
-  background-color: blue;
-`;
-const InfoContainer = styled.header`
-  width: 100vw;
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: pink;
-`;
-const LogoContainer = styled.figure`
-  display: flex;
-  align-items: center;
-  background-color: yellow;
-  .img {
-    height: 50px;
-  }
-`;

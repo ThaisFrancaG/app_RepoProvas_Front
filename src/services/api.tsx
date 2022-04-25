@@ -31,5 +31,11 @@ async function logOut(token: string) {
   await axios.post(`${BASE_URL}/log-out`, token, config);
 }
 
-const api = { signUp, signIn, logOut };
+async function getFilterItems(token: string, filter: string) {
+  const config = authData(token);
+
+  const list = await axios.get(`${BASE_URL}/${filter}`, config);
+  return list.data;
+}
+const api = { signUp, signIn, logOut, getFilterItems };
 export default api;
