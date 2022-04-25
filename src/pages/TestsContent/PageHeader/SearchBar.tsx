@@ -15,7 +15,6 @@ export default function SearchBar(props: Props) {
   console.log(filter);
 
   useEffect(() => {
-    console.log("chamou");
     getList();
   }, [filter]);
 

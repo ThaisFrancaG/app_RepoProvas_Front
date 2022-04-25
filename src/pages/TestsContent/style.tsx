@@ -7,7 +7,7 @@ export const MainContainer = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: blue;
+
   @media (max-width: 430px) {
     flex-direction: column;
     justify-content: start;

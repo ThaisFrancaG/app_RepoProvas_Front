@@ -12,10 +12,10 @@ import * as headerStyle from "./style";
 import SearchOptions from "./TestsOptions";
 import SearchBar from "./SearchBar";
 
-export default function MainHeader() {
+export default function MainHeader(props) {
   const [open, setOpen] = useState(false);
   const { auth } = useAuth();
-  const [filter, setFilter] = useState("disciplines");
+  const { filter, setFilter } = props;
   const navigate = useNavigate();
   async function logOut() {
     try {
