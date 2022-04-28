@@ -33,9 +33,29 @@ async function logOut(token: string) {
 
 async function getFilterItems(token: string, filter: string) {
   const config = authData(token);
-
   const list = await axios.get(`${BASE_URL}/${filter}`, config);
   return list.data;
 }
-const api = { signUp, signIn, logOut, getFilterItems };
+
+async function getOuterListDisciplines(token: string, termId: number) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/${termId}/disciplines`, config);
+  return list.data;
+}
+
+async function getInnerListDisciplines(token: string, disciplineId: number) {
+  console.log(disciplineId);
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/${disciplineId}/tests`, config);
+  console.log(list.data);
+  return list.data;
+}
+const api = {
+  signUp,
+  signIn,
+  logOut,
+  getFilterItems,
+  getOuterListDisciplines,
+  getInnerListDisciplines,
+};
 export default api;
