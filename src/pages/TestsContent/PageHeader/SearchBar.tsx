@@ -16,7 +16,7 @@ export default function SearchBar(props: Props) {
   const { filter } = props;
   const { auth } = useAuth();
   const [filterItems, setItemsFilter] = useState([]);
-  console.log(filterItems);
+  const [toSearch, setToSearch] = useState("");
 
   useEffect(() => {
     getList();
@@ -25,12 +25,24 @@ export default function SearchBar(props: Props) {
   async function getList() {
     try {
       const searchItems = await api.getSearchableItems(auth, filter);
-      console.log(searchItems);
       setItemsFilter(searchItems);
     } catch (error) {
       console.log(error);
     }
   }
+
+  function handleInputChange(value: string) {
+    setToSearch(value);
+  }
+
+  async function handleSearch() {
+    console.log(filterItems);
+    const searchId = filterItems.find((item) => item.name === toSearch).id;
+    const filteresTestList = api.getFilteredTestsList(filter, searchId, auth);
+  }
+
+  let itemList = [];
+  const itemsOptions = filterItems.map((item) => itemList.push(item.name));
 
   const {
     getRootProps,
@@ -47,19 +59,21 @@ export default function SearchBar(props: Props) {
 
   return (
     <style.SearchBarContainer>
-      <div>
-        <div {...getRootProps()}>
-          <Label {...getInputLabelProps()}>Search by {filter}</Label>
-          <Input {...getInputProps()} />
-        </div>
-        {groupedOptions.length > 0 ? (
-          <Listbox {...getListboxProps()}>
-            {(groupedOptions as typeof filterItems).map((option, index) => (
-              <li {...getOptionProps({ option, index })}>{option.name}</li>
-            ))}
-          </Listbox>
-        ) : null}
-      </div>
+      <Autocomplete
+        value={toSearch}
+        onChange={(event: any, newValue: string | null) => {
+          setToSearch(newValue);
+        }}
+        id="controllable-states-demo"
+        options={itemList}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Controllable" />}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            handleSearch();
+          }
+        }}
+      />
     </style.SearchBarContainer>
   );
 }

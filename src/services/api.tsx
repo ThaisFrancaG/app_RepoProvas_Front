@@ -75,6 +75,20 @@ async function getInnerListDisciplines(
   return list.data;
 }
 
+async function getFilteredTestsList(
+  filter: string,
+  filterId: number,
+  token: string
+) {
+  console.log(filterId);
+  const config = authData(token);
+  const list = await axios.get(
+    `${BASE_URL}/tests/${filter}/${filterId}`,
+    config
+  );
+  console.log(list.data);
+}
+
 async function getInnerListTeachers(
   token: string,
   teacherId: number,
@@ -100,5 +114,6 @@ const api = {
   getInnerListDisciplines,
   getInnerListTeachers,
   getSearchableItems,
+  getFilteredTestsList,
 };
 export default api;
