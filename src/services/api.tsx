@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "http://localhost:5001";
 
 function authData(token) {
   return {
@@ -40,14 +40,27 @@ async function getFilterItems(token: string, filter: string) {
 async function getOuterListDisciplines(token: string, termId: number) {
   const config = authData(token);
   const list = await axios.get(`${BASE_URL}/${termId}/disciplines`, config);
-  return list.data;
+  const categories = list.data.categoriesList;
+  const disciplines = list.data.disciplinesList.disciplinesList;
+  console.log(categories);
+  console.log(disciplines);
+  return { categories, disciplines };
 }
 
-async function getInnerListDisciplines(token: string, disciplineId: number) {
+async function getInnerListDisciplines(
+  token: string,
+  disciplineId: number,
+  categorieId: number
+) {
   console.log(disciplineId);
+  console.log(categorieId);
   const config = authData(token);
-  const list = await axios.get(`${BASE_URL}/${disciplineId}/tests`, config);
+  const list = await axios.get(
+    `${BASE_URL}/tests/discipline/${disciplineId}/${categorieId}`,
+    config
+  );
   console.log(list.data);
+
   return list.data;
 }
 const api = {
