@@ -22,6 +22,7 @@ export default function SignUp() {
   }
 
   async function handleClick() {
+    alert("apertou");
     setLoading(true);
     setSubmitError(false);
     try {
@@ -64,6 +65,7 @@ export default function SignUp() {
           onChange={(e) => handleInputChange(e.target.value, e.target.id)}
         />
         <LoadingButton
+          id="submit"
           size="small"
           onClick={() => handleClick()}
           loading={loading}
