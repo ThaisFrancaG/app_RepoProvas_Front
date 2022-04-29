@@ -36,7 +36,12 @@ async function getFilterItems(token: string, filter: string) {
   const list = await axios.get(`${BASE_URL}/${filter}`, config);
   return list.data;
 }
-
+async function getCategories(token: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/categories`, config);
+  console.log(list);
+  return list.data;
+}
 async function getOuterListDisciplines(token: string, termId: number) {
   const config = authData(token);
   const list = await axios.get(`${BASE_URL}/${termId}/disciplines`, config);
@@ -63,12 +68,30 @@ async function getInnerListDisciplines(
 
   return list.data;
 }
+
+async function getInnerListTeachers(
+  token: string,
+  teacherId: number,
+  categorieId: number
+) {
+  console.log(teacherId);
+  const config = authData(token);
+  const list = await axios.get(
+    `${BASE_URL}/tests/discipline/${teacherId}/${categorieId}`,
+    config
+  );
+  console.log(list.data);
+
+  return list.data;
+}
 const api = {
   signUp,
   signIn,
   logOut,
   getFilterItems,
+  getCategories,
   getOuterListDisciplines,
   getInnerListDisciplines,
+  getInnerListTeachers,
 };
 export default api;

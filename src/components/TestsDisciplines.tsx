@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
@@ -16,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import api from "../services/api";
 import useAuth from "../hooks/userAuth";
+import { TestsCategories } from "./TestAccordions";
 
 interface Props {
   filterItems:
@@ -25,52 +22,6 @@ interface Props {
         temId?: number;
       }
     | any;
-}
-
-function TeacherMap(props: Props) {
-  const { filterItems } = props;
-  const [open, setOpen] = useState(true);
-  const [opened, setOpened] = useState(null);
-
-  function handleClick(id: number) {
-    setOpened(id);
-    setOpen(!open);
-  }
-  console.log(filterItems);
-
-  return (
-    <>
-      <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Lista de Professores
-          </ListSubheader>
-        }
-      >
-        {filterItems.map((item) => (
-          <>
-            <ListItemButton key={item.id} onClick={() => handleClick(item.id)}>
-              <ListItemText primary={item.name} />
-              {open && opened === item.id ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            {/* <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText primary="Starred" />
-                </ListItemButton>
-              </List>
-            </Collapse> */}
-          </>
-        ))}
-      </List>
-    </>
-  );
 }
 
 function DisciplineMap(props: Props) {
@@ -137,6 +88,7 @@ function DisciplineMap(props: Props) {
       {filterItems.map((item: any) => (
         <div>
           <Accordion
+            sx={{ width: "100%" }}
             expanded={expandedFilter === item.id}
             onClick={() => handleChange(item.id)}
           >
@@ -162,6 +114,7 @@ function DisciplineMap(props: Props) {
                 ) : (
                   outerTestList.map((outerItem: any) => (
                     <Accordion
+                      sx={{ width: "100%" }}
                       expanded={expandedOuter === outerItem.id}
                       onClick={() => handleChangeOuter(outerItem.id)}
                     >
@@ -185,6 +138,7 @@ function DisciplineMap(props: Props) {
                           ) : (
                             categories.map((categorie: any) => (
                               <Accordion
+                                sx={{ width: "100%" }}
                                 expanded={expandedCategorie === categorie.id}
                                 onClick={() =>
                                   handleChangeCategorie(categorie.id)
@@ -206,11 +160,14 @@ function DisciplineMap(props: Props) {
                                   </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                  <Typography>
-                                    Nulla facilisi. Phasellus sollicitudin nulla
-                                    et quam mattis feugiat. Aliquam eget maximus
-                                    est, id dignissim quam.
-                                  </Typography>
+                                  {testList.length === 0 ? (
+                                    <Typography>
+                                      {" "}
+                                      There are no tests!{" "}
+                                    </Typography>
+                                  ) : (
+                                    <TestsCategories testList={testList} />
+                                  )}
                                 </AccordionDetails>
                               </Accordion>
                             ))
@@ -229,4 +186,4 @@ function DisciplineMap(props: Props) {
   );
 }
 
-export { TeacherMap, DisciplineMap };
+export { DisciplineMap };
