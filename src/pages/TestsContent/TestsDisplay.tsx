@@ -4,7 +4,8 @@ import { useNavigate } from "react-router";
 import MainHeader from "./PageHeader/Header";
 import * as style from "./style";
 import api from "../../services/api";
-import { DisciplineMap, TeacherMap } from "../../components/TestFilter";
+import { DisciplineMap } from "../../components/TestsDisciplines";
+import { TeacherMap } from "../../components/TestsTeachers";
 
 export default function TestsDisplay() {
   const { auth } = useAuth();
