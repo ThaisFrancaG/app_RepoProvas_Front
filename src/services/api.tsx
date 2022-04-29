@@ -31,6 +31,12 @@ async function logOut(token: string) {
   await axios.post(`${BASE_URL}/log-out`, token, config);
 }
 
+async function getSearchableItems(token: string, filter: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/search/${filter}`, config);
+  return list.data;
+}
+
 async function getFilterItems(token: string, filter: string) {
   const config = authData(token);
   const list = await axios.get(`${BASE_URL}/${filter}`, config);
@@ -93,5 +99,6 @@ const api = {
   getOuterListDisciplines,
   getInnerListDisciplines,
   getInnerListTeachers,
+  getSearchableItems,
 };
 export default api;

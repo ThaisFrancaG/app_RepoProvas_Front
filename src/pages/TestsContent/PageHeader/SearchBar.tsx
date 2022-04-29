@@ -16,7 +16,7 @@ export default function SearchBar(props: Props) {
   const { filter } = props;
   const { auth } = useAuth();
   const [filterItems, setItemsFilter] = useState([]);
-  console.log(filter);
+  console.log(filterItems);
 
   useEffect(() => {
     getList();
@@ -24,7 +24,8 @@ export default function SearchBar(props: Props) {
 
   async function getList() {
     try {
-      const searchItems = await api.getFilterItems(auth, filter);
+      const searchItems = await api.getSearchableItems(auth, filter);
+      console.log(searchItems);
       setItemsFilter(searchItems);
     } catch (error) {
       console.log(error);
