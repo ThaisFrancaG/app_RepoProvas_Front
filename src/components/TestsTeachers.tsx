@@ -35,7 +35,7 @@ function TeacherMap(props: Props) {
   const [expandedInner, setExpandedInner] = useState(null);
 
   const { auth } = useAuth();
-  console.log(filterItems);
+
   function handleChange(id) {
     setExpandedFilter(id);
   }
@@ -44,7 +44,6 @@ function TeacherMap(props: Props) {
     setExpandedCategorie(id);
   }
   useEffect(() => {
-    console.log("chegou aqui Outer");
     getCategories();
   }, [expandedFilter]);
 

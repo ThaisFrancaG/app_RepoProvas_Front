@@ -50,17 +50,14 @@ function DisciplineMap(props: Props) {
   }
 
   useEffect(() => {
-    console.log("chegou aqui Outer");
     getOuterTestList();
   }, [expandedFilter]);
 
   useEffect(() => {
-    console.log("chegou aqui Inner");
     getOuterTestList();
   }, [expandedOuter]);
 
   useEffect(() => {
-    console.log("chegou aqui categorie");
     getInnerTestList();
   }, [expandedCategorie]);
 
@@ -79,8 +76,7 @@ function DisciplineMap(props: Props) {
       expandedOuter,
       expandedCategorie
     );
-    console.log(expandedCategorie);
-    console.log(innerList);
+
     setTestList(innerList);
   }
   return (

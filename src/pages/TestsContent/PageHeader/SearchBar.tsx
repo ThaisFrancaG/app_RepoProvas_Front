@@ -8,20 +8,24 @@ import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAutocomplete } from "@mui/base/AutocompleteUnstyled";
 import { styled } from "@mui/material/styles";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 interface Props {
   filter: null | string;
   setDisplaySearch?: any;
   setSearchResults?: any;
+  toSearch: null | string;
+  setToSearch: any;
 }
 export default function SearchBar(props: Props) {
-  const { filter, setDisplaySearch, setSearchResults } = props;
+  const { filter, setDisplaySearch, setSearchResults, toSearch, setToSearch } =
+    props;
   const { auth } = useAuth();
   const [filterItems, setItemsFilter] = useState([]);
-  const [toSearch, setToSearch] = useState("");
 
   useEffect(() => {
     getList();
+    setToSearch(null);
   }, [filter]);
 
   async function getList() {
@@ -38,15 +42,16 @@ export default function SearchBar(props: Props) {
   }
 
   async function handleSearch() {
+    console.log(filter);
     const searchId = filterItems.find((item) => item.name === toSearch).id;
     const filteredTestList = await api.getFilteredTestsList(
       filter,
       searchId,
       auth
     );
-    console.log(filteredTestList);
-    setDisplaySearch(true);
+
     setSearchResults(filteredTestList);
+    setDisplaySearch(true);
   }
 
   let itemList = [];
@@ -75,12 +80,16 @@ export default function SearchBar(props: Props) {
         id="controllable-states-demo"
         options={itemList}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Controllable" />}
+        renderInput={(params) => <TextField {...params} label="Search Here" />}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
             handleSearch();
           }
         }}
+      />
+      <SearchRoundedIcon
+        sx={{ marginLeft: "10px" }}
+        onClick={() => handleSearch()}
       />
     </style.SearchBarContainer>
   );

@@ -8,7 +8,6 @@ import api from "../services/api";
 import useAuth from "../hooks/userAuth";
 
 function TestsCategories({ testList }) {
-  console.log(testList);
   const [expandedTest, setExpandedTest] = useState(null);
   function handleChangeTest(id) {
     setExpandedTest(id);
@@ -56,7 +55,6 @@ function Categories({ categorieList, instructor }) {
   }
 
   useEffect(() => {
-    console.log("chegou aqui categorie");
     getInnerTestList();
   }, [expandedCategorie]);
 
@@ -66,8 +64,7 @@ function Categories({ categorieList, instructor }) {
       instructor,
       expandedCategorie
     );
-    console.log(expandedCategorie);
-    console.log(innerList);
+
     setTestList(innerList);
   }
   return (

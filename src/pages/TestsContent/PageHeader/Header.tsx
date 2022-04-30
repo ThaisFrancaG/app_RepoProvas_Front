@@ -15,7 +15,15 @@ import SearchBar from "./SearchBar";
 export default function MainHeader(props) {
   const [open, setOpen] = useState(false);
   const { auth } = useAuth();
-  const { filter, setFilter, setDisplaySearch, setSearchResults } = props;
+
+  const {
+    filter,
+    setFilter,
+    setDisplaySearch,
+    setSearchResults,
+    toSearch,
+    setToSearch,
+  } = props;
   const navigate = useNavigate();
   async function logOut() {
     try {
@@ -60,6 +68,8 @@ export default function MainHeader(props) {
         filter={filter}
         setDisplaySearch={setDisplaySearch}
         setSearchResults={setSearchResults}
+        toSearch={toSearch}
+        setToSearch={setToSearch}
       />
       <SearchOptions filter={filter} setFilter={setFilter} />
     </headerStyle.HeaderConteiner>

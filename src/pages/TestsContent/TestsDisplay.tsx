@@ -14,9 +14,10 @@ export default function TestsDisplay() {
   const [filterItems, setItemsFilter] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [displaySearch, setDisplaySearch] = useState(false);
+  const [toSearch, setToSearch] = useState("");
 
   const navigate = useNavigate();
-  console.log(searchResults);
+
   useEffect(() => {
     if (!auth) {
       alert("Please, make sure that you are loged-in");
@@ -25,7 +26,6 @@ export default function TestsDisplay() {
   }, []);
 
   useEffect(() => {
-    console.log("updateTestsList");
     getList();
   }, [filter]);
 
@@ -44,10 +44,12 @@ export default function TestsDisplay() {
         setFilter={setFilter}
         setDisplaySearch={setDisplaySearch}
         setSearchResults={setSearchResults}
+        toSearch={toSearch}
+        setToSearch={setToSearch}
       />
       <style.MainContainer>
         {displaySearch ? (
-          <SearchResultsMap searchResults={searchResults} />
+          <SearchResultsMap searchResults={searchResults} toSearch={toSearch} />
         ) : filter === "disciplines" ? (
           <DisciplineMap filterItems={filterItems} />
         ) : (
