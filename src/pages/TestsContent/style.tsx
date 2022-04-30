@@ -13,3 +13,9 @@ export const MainContainer = styled.main`
     justify-content: start;
   }
 `;
+
+export const HoverIcons = styled.figure`
+  :hover {
+    cursor: pointer;
+  }
+`;
