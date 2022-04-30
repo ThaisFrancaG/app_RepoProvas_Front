@@ -22,26 +22,19 @@ interface Props {
         termId?: number;
       }
     | any;
+  toSearch: string;
 }
 
 function SearchResultsMap(props: Props) {
-  const { searchResults } = props;
+  const { searchResults, toSearch } = props;
   const [categories, setCategories] = useState([]);
-  const [outerTestList, setOuterTestList] = useState([]);
-  const [testList, setTestList] = useState([]);
   const [expandedFilter, setExpandedFilter] = useState(null);
-  const [expandedOuter, setExpandedOuter] = useState(null);
-  const [expandedCategorie, setExpandedCategorie] = useState(null);
-  const [expandedInner, setExpandedInner] = useState(null);
 
   const { auth } = useAuth();
   function handleChange(id) {
     setExpandedFilter(id);
   }
 
-  function handleChangeCategorie(id) {
-    setExpandedCategorie(id);
-  }
   useEffect(() => {
     getCategories();
   }, [expandedFilter]);
@@ -51,36 +44,40 @@ function SearchResultsMap(props: Props) {
     setCategories(categorieList);
   }
 
+  console.log(searchResults);
+
   return (
     <>
-      {searchResults.length === 0
-        ? "oi"
-        : searchResults.map((item: any) => (
-            <Accordion
-              sx={{ width: "100%" }}
-              expanded={expandedFilter === item.id}
-              onClick={() => handleChange(item.id)}
+      {searchResults.length === 0 ? (
+        <Typography>There are no Tests from {toSearch} </Typography>
+      ) : (
+        searchResults.map((item: any) => (
+          <Accordion
+            sx={{ width: "100%" }}
+            expanded={expandedFilter === item.id}
+            onClick={() => handleChange(item.id)}
+          >
+            <AccordionSummary
+              sx={{ backgroundColor: "#9575cd" }}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
             >
-              <AccordionSummary
-                sx={{ backgroundColor: "#9575cd" }}
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                  {item.name}
-                </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
-                  All tests from the {item.name}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  <Categories categorieList={categories} instructor={item.id} />
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                {item.name}
+              </Typography>
+              <Typography sx={{ color: "text.secondary" }}>
+                All tests from the {item.name}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <Categories categorieList={categories} instructor={item.id} />
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))
+      )}
     </>
   );
 }

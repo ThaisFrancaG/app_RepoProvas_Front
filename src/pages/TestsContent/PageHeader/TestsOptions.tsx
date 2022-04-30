@@ -16,7 +16,7 @@ export default function SearchOptions(props: Props) {
     newAlignment: string
   ) => {
     setAlignment(newAlignment);
-    console.log("mudou");
+
     setFilter(filter === "disciplines" ? "teachers" : "disciplines");
   };
 
