@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import * as headerStyle from "./style";
 import SearchOptions from "./TestsOptions";
 import SearchBar from "./SearchBar";
-
+import { HoverIcons } from "../style";
 export default function MainHeader(props) {
   const [open, setOpen] = useState(false);
   const { auth } = useAuth();
@@ -39,10 +39,11 @@ export default function MainHeader(props) {
   return (
     <headerStyle.HeaderConteiner>
       <headerStyle.InfoContainer>
-        <headerStyle.LogoContainer>
+        <headerStyle.LogoContainer className="eventIcons">
           <img src={logo} alt="logo" onClick={() => setDisplaySearch(false)} />
         </headerStyle.LogoContainer>
         <LogoutIcon
+          className="eventIcons"
           color="primary"
           sx={{ fontSize: 60 }}
           onClick={() => setOpen(true)}

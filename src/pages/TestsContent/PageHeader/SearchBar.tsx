@@ -42,7 +42,6 @@ export default function SearchBar(props: Props) {
   }
 
   async function handleSearch() {
-    console.log(filter);
     const searchId = filterItems.find((item) => item.name === toSearch).id;
     const filteredTestList = await api.getFilteredTestsList(
       filter,
@@ -88,6 +87,7 @@ export default function SearchBar(props: Props) {
         }}
       />
       <SearchRoundedIcon
+        className="eventIcons"
         sx={{ marginLeft: "10px" }}
         onClick={() => handleSearch()}
       />

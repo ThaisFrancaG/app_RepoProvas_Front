@@ -97,6 +97,11 @@ async function getInnerListTeachers(
 
   return list.data;
 }
+
+async function testView(token: string, testId: number) {
+  const config = authData(token);
+  await axios.patch(`${BASE_URL}/tests/views/${testId}`, {}, config);
+}
 const api = {
   signUp,
   signIn,
@@ -108,5 +113,6 @@ const api = {
   getInnerListTeachers,
   getSearchableItems,
   getFilteredTestsList,
+  testView,
 };
 export default api;

@@ -6,11 +6,21 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import api from "../services/api";
 import useAuth from "../hooks/userAuth";
+import Link from "@mui/material/Link";
 
 function TestsCategories({ testList }) {
   const [expandedTest, setExpandedTest] = useState(null);
+  const { auth } = useAuth();
   function handleChangeTest(id) {
     setExpandedTest(id);
+  }
+
+  async function handleTestClick(id: number) {
+    try {
+      await api.testView(auth, id);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <>
@@ -34,10 +44,20 @@ function TestsCategories({ testList }) {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>PDF:{test.pdfUrl}</Typography>
+            <Typography variant="h5">
+              <Link
+                onClick={() => handleTestClick(test.id)}
+                href={test.pdfUrl}
+                target="_blank"
+                underline="always"
+              >
+                PDF:{test.pdfUrl}
+              </Link>
+            </Typography>
             <Typography>
               Teacher:{test.teacherDiscipline.teacher.name}
             </Typography>
+            <Typography>Tests Views:{test.views}</Typography>
           </AccordionDetails>
         </Accordion>
       ))}

@@ -44,8 +44,6 @@ function SearchResultsMap(props: Props) {
     setCategories(categorieList);
   }
 
-  console.log(searchResults);
-
   return (
     <>
       {searchResults.length === 0 ? (
