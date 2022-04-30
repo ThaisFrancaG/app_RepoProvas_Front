@@ -87,6 +87,8 @@ async function getFilteredTestsList(
     config
   );
   console.log(list.data);
+
+  return list.data;
 }
 
 async function getInnerListTeachers(

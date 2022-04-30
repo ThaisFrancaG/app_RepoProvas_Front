@@ -11,9 +11,11 @@ import { styled } from "@mui/material/styles";
 
 interface Props {
   filter: null | string;
+  setDisplaySearch?: any;
+  setSearchResults?: any;
 }
 export default function SearchBar(props: Props) {
-  const { filter } = props;
+  const { filter, setDisplaySearch, setSearchResults } = props;
   const { auth } = useAuth();
   const [filterItems, setItemsFilter] = useState([]);
   const [toSearch, setToSearch] = useState("");
@@ -36,9 +38,15 @@ export default function SearchBar(props: Props) {
   }
 
   async function handleSearch() {
-    console.log(filterItems);
     const searchId = filterItems.find((item) => item.name === toSearch).id;
-    const filteresTestList = api.getFilteredTestsList(filter, searchId, auth);
+    const filteredTestList = await api.getFilteredTestsList(
+      filter,
+      searchId,
+      auth
+    );
+    console.log(filteredTestList);
+    setDisplaySearch(true);
+    setSearchResults(filteredTestList);
   }
 
   let itemList = [];

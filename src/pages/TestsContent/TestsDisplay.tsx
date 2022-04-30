@@ -6,13 +6,17 @@ import * as style from "./style";
 import api from "../../services/api";
 import { DisciplineMap } from "../../components/TestsDisciplines";
 import { TeacherMap } from "../../components/TestsTeachers";
+import { SearchResultsMap } from "../../components/SearchResults";
 
 export default function TestsDisplay() {
   const { auth } = useAuth();
   const [filter, setFilter] = useState("disciplines");
   const [filterItems, setItemsFilter] = useState([]);
-  const navigate = useNavigate();
+  const [searchResults, setSearchResults] = useState([]);
+  const [displaySearch, setDisplaySearch] = useState(false);
 
+  const navigate = useNavigate();
+  console.log(searchResults);
   useEffect(() => {
     if (!auth) {
       alert("Please, make sure that you are loged-in");
@@ -35,9 +39,16 @@ export default function TestsDisplay() {
   }
   return (
     <>
-      <MainHeader filter={filter} setFilter={setFilter} />
+      <MainHeader
+        filter={filter}
+        setFilter={setFilter}
+        setDisplaySearch={setDisplaySearch}
+        setSearchResults={setSearchResults}
+      />
       <style.MainContainer>
-        {filter === "disciplines" ? (
+        {displaySearch ? (
+          <SearchResultsMap searchResults={searchResults} />
+        ) : filter === "disciplines" ? (
           <DisciplineMap filterItems={filterItems} />
         ) : (
           <TeacherMap filterItems={filterItems} />
