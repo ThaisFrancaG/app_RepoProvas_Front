@@ -15,7 +15,7 @@ import SearchBar from "./SearchBar";
 export default function MainHeader(props) {
   const [open, setOpen] = useState(false);
   const { auth } = useAuth();
-  const { filter, setFilter } = props;
+  const { filter, setFilter, setDisplaySearch, setSearchResults } = props;
   const navigate = useNavigate();
   async function logOut() {
     try {
@@ -32,7 +32,7 @@ export default function MainHeader(props) {
     <headerStyle.HeaderConteiner>
       <headerStyle.InfoContainer>
         <headerStyle.LogoContainer>
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" onClick={() => setDisplaySearch(false)} />
         </headerStyle.LogoContainer>
         <LogoutIcon
           color="primary"
@@ -56,7 +56,11 @@ export default function MainHeader(props) {
           </DialogActions>
         </Dialog>
       </headerStyle.InfoContainer>
-      <SearchBar filter={filter} />
+      <SearchBar
+        filter={filter}
+        setDisplaySearch={setDisplaySearch}
+        setSearchResults={setSearchResults}
+      />
       <SearchOptions filter={filter} setFilter={setFilter} />
     </headerStyle.HeaderConteiner>
   );

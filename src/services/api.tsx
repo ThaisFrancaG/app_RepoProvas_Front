@@ -31,6 +31,12 @@ async function logOut(token: string) {
   await axios.post(`${BASE_URL}/log-out`, token, config);
 }
 
+async function getSearchableItems(token: string, filter: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/search/${filter}`, config);
+  return list.data;
+}
+
 async function getFilterItems(token: string, filter: string) {
   const config = authData(token);
   const list = await axios.get(`${BASE_URL}/${filter}`, config);
@@ -69,6 +75,22 @@ async function getInnerListDisciplines(
   return list.data;
 }
 
+async function getFilteredTestsList(
+  filter: string,
+  filterId: number,
+  token: string
+) {
+  console.log(filterId);
+  const config = authData(token);
+  const list = await axios.get(
+    `${BASE_URL}/tests/${filter}/${filterId}`,
+    config
+  );
+  console.log(list.data);
+
+  return list.data;
+}
+
 async function getInnerListTeachers(
   token: string,
   teacherId: number,
@@ -93,5 +115,7 @@ const api = {
   getOuterListDisciplines,
   getInnerListDisciplines,
   getInnerListTeachers,
+  getSearchableItems,
+  getFilteredTestsList,
 };
 export default api;
