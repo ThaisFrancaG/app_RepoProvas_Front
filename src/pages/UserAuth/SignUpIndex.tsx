@@ -22,7 +22,6 @@ export default function SignUp() {
   }
 
   async function handleClick() {
-    alert("apertou");
     setLoading(true);
     setSubmitError(false);
     try {

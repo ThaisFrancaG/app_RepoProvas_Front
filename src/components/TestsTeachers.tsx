@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ListSubheader from "@mui/material/ListSubheader";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
+
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -14,25 +9,13 @@ import api from "../services/api";
 import useAuth from "../hooks/userAuth";
 import { Categories, TestsCategories } from "./TestAccordions";
 
-interface Props {
-  filterItems:
-    | {
-        id: number;
-        name: string;
-        temId?: number;
-      }
-    | any;
-}
-
-function TeacherMap(props: Props) {
-  const { filterItems } = props;
+function TeacherMap({ filter }) {
+  const [teachers, setTeachers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [outerTestList, setOuterTestList] = useState([]);
   const [testList, setTestList] = useState([]);
   const [expandedFilter, setExpandedFilter] = useState(null);
-  const [expandedOuter, setExpandedOuter] = useState(null);
   const [expandedCategorie, setExpandedCategorie] = useState(null);
-  const [expandedInner, setExpandedInner] = useState(null);
 
   const { auth } = useAuth();
 
@@ -44,6 +27,7 @@ function TeacherMap(props: Props) {
     setExpandedCategorie(id);
   }
   useEffect(() => {
+    getTeachers();
     getCategories();
   }, [expandedFilter]);
 
@@ -51,10 +35,14 @@ function TeacherMap(props: Props) {
     const categorieList = await api.getCategories(auth);
     setCategories(categorieList);
   }
+  async function getTeachers() {
+    const teachersList = await api.getSearchableItems(auth, "teachers");
+    setTeachers(teachersList);
+  }
 
   return (
     <>
-      {filterItems.map((item: any) => (
+      {teachers.map((item: any) => (
         <Accordion
           sx={{ width: "100%" }}
           expanded={expandedFilter === item.id}
@@ -67,15 +55,19 @@ function TeacherMap(props: Props) {
             id="panel1bh-header"
           >
             <Typography sx={{ width: "33%", flexShrink: 0 }}>
-              {item.name}
+              {item.number}
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              All tests from the {item.name}
+              All tests from the instruction {item.name}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <Categories categorieList={categories} instructor={item.id} />
+              <Categories
+                categorieList={categories}
+                filterId={item.id}
+                filter={filter}
+              />
             </Typography>
           </AccordionDetails>
         </Accordion>

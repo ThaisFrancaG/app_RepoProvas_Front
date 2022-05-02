@@ -7,13 +7,21 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import api from "../services/api";
 import useAuth from "../hooks/userAuth";
 import Link from "@mui/material/Link";
-
-function TestsCategories({ testList }) {
+interface Props {
+  testList: {
+    id: number;
+    name: string;
+    pdfUrl: string;
+  };
+  filter: string | null;
+}
+function TestsCategories(props: any) {
   const [expandedTest, setExpandedTest] = useState(null);
   const { auth } = useAuth();
   function handleChangeTest(id) {
     setExpandedTest(id);
   }
+  const { testList, filter } = props;
 
   async function handleTestClick(id: number) {
     try {
@@ -22,6 +30,7 @@ function TestsCategories({ testList }) {
       console.log(error);
     }
   }
+
   return (
     <>
       {testList.map((test) => (
@@ -54,10 +63,16 @@ function TestsCategories({ testList }) {
                 PDF:{test.pdfUrl}
               </Link>
             </Typography>
-            <Typography>
-              Teacher:{test.teacherDiscipline.teacher.name}
-            </Typography>
+
             <Typography>Tests Views:{test.views}</Typography>
+
+            {filter === "teachers" ? (
+              <Typography>{test.teacherDiscipline.discipline.name} </Typography>
+            ) : filter === "disciplines" ? (
+              <Typography>{test.teacherDiscipline.teacher.name} </Typography>
+            ) : (
+              <Typography>Something went wrong </Typography>
+            )}
           </AccordionDetails>
         </Accordion>
       ))}
@@ -65,7 +80,7 @@ function TestsCategories({ testList }) {
   );
 }
 
-function Categories({ categorieList, instructor }) {
+function Categories({ categorieList, filterId, filter }) {
   const [expandedCategorie, setExpandedCategorie] = useState(null);
   const [testList, setTestList] = useState([]);
   const { auth } = useAuth();
@@ -75,18 +90,33 @@ function Categories({ categorieList, instructor }) {
   }
 
   useEffect(() => {
-    getInnerTestList();
+    if (expandedCategorie !== null) {
+      getInnerTestList();
+    }
   }, [expandedCategorie]);
 
   async function getInnerTestList() {
-    const innerList = await api.getInnerListTeachers(
-      auth,
-      instructor,
-      expandedCategorie
-    );
+    if (filter === "teachers") {
+      const innerList = await api.testCategory(
+        auth,
+        filterId,
+        expandedCategorie,
+        "teacher"
+      );
+      setTestList(innerList);
+    }
 
-    setTestList(innerList);
+    if (filter === "disciplines") {
+      const innerList = await api.testCategory(
+        auth,
+        filterId,
+        expandedCategorie,
+        "discipline"
+      );
+      setTestList(innerList);
+    }
   }
+
   return (
     <>
       {categorieList.map((item) => (
@@ -105,12 +135,16 @@ function Categories({ categorieList, instructor }) {
               {item.name}
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              All tests from the {item.name}
+              All tests from the {item.name} category
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <TestsCategories testList={testList} />
+              {testList.length === 0 ? (
+                "There are no tests of this category"
+              ) : (
+                <TestsCategories testList={testList} filter={filter} />
+              )}
             </Typography>
           </AccordionDetails>
         </Accordion>

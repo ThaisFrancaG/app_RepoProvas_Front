@@ -1,12 +1,13 @@
 import useAuth from "../../hooks/userAuth";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import MainHeader from "./PageHeader/Header";
+import { MainHeader } from "./PageHeader/Header";
 import * as style from "./style";
 import api from "../../services/api";
 import { DisciplineMap } from "../../components/TestsDisciplines";
 import { TeacherMap } from "../../components/TestsTeachers";
 import { SearchResultsMap } from "../../components/SearchResults";
+import MainFooter from "../AddNewTest/Footer";
 
 export default function TestsDisplay() {
   const { auth } = useAuth();
@@ -25,18 +26,6 @@ export default function TestsDisplay() {
     }
   }, []);
 
-  useEffect(() => {
-    getList();
-  }, [filter]);
-
-  async function getList() {
-    try {
-      const searchItems = await api.getFilterItems(auth, filter);
-      setItemsFilter(searchItems);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   return (
     <>
       <MainHeader
@@ -49,13 +38,18 @@ export default function TestsDisplay() {
       />
       <style.MainContainer>
         {displaySearch ? (
-          <SearchResultsMap searchResults={searchResults} toSearch={toSearch} />
+          <SearchResultsMap
+            searchResults={searchResults}
+            toSearch={toSearch}
+            filter={filter}
+          />
         ) : filter === "disciplines" ? (
-          <DisciplineMap filterItems={filterItems} />
+          <DisciplineMap filter={filter} />
         ) : (
-          <TeacherMap filterItems={filterItems} />
+          <TeacherMap filter={filter} />
         )}
       </style.MainContainer>
+      <MainFooter />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5001";
+const BASE_URL = "http://localhost:5000";
 
 function authData(token) {
   return {
@@ -32,41 +32,7 @@ async function logOut(token: string) {
 
 async function getSearchableItems(token: string, filter: string) {
   const config = authData(token);
-  const list = await axios.get(`${BASE_URL}/search/${filter}`, config);
-  return list.data;
-}
-
-async function getFilterItems(token: string, filter: string) {
-  const config = authData(token);
-  const list = await axios.get(`${BASE_URL}/${filter}`, config);
-  return list.data;
-}
-async function getCategories(token: string) {
-  const config = authData(token);
-  const list = await axios.get(`${BASE_URL}/categories`, config);
-
-  return list.data;
-}
-async function getOuterListDisciplines(token: string, termId: number) {
-  const config = authData(token);
-  const list = await axios.get(`${BASE_URL}/${termId}/disciplines`, config);
-  const categories = list.data.categoriesList;
-  const disciplines = list.data.disciplinesList.disciplinesList;
-
-  return { categories, disciplines };
-}
-
-async function getInnerListDisciplines(
-  token: string,
-  disciplineId: number,
-  categorieId: number
-) {
-  const config = authData(token);
-  const list = await axios.get(
-    `${BASE_URL}/tests/discipline/${disciplineId}/${categorieId}`,
-    config
-  );
-
+  const list = await axios.get(`${BASE_URL}/filter/${filter}`, config);
   return list.data;
 }
 
@@ -78,6 +44,64 @@ async function getFilteredTestsList(
   const config = authData(token);
   const list = await axios.get(
     `${BASE_URL}/tests/${filter}/${filterId}`,
+    config
+  );
+
+  return list.data;
+}
+async function getCategories(token: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/categories`, config);
+
+  return list.data;
+}
+
+async function getTerms(token: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/terms`, config);
+
+  return list.data;
+}
+
+async function testCategory(
+  token: string,
+  teacherId: number,
+  categoryId: number,
+  path: string
+) {
+  alert(path);
+  const config = authData(token);
+  const list = await axios.get(
+    `${BASE_URL}/categories/${path}/${teacherId}/${categoryId}/`,
+    config
+  );
+
+  return list.data;
+}
+
+async function getFilterItems(token: string, filter: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/${filter}`, config);
+  return list.data;
+}
+
+async function getDisciplineByTerm(token: string, termId: number) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/${termId}/disciplines`, config);
+
+  const disciplines = list.data.disciplinesList.disciplinesList;
+
+  return disciplines;
+}
+
+async function getInnerListDisciplines(
+  token: string,
+  disciplineId: number,
+  categorieId: number
+) {
+  const config = authData(token);
+  const list = await axios.get(
+    `${BASE_URL}/tests/discipline/${disciplineId}/${categorieId}`,
     config
   );
 
@@ -108,11 +132,13 @@ const api = {
   logOut,
   getFilterItems,
   getCategories,
-  getOuterListDisciplines,
+  getTerms,
+  getDisciplineByTerm,
   getInnerListDisciplines,
   getInnerListTeachers,
   getSearchableItems,
   getFilteredTestsList,
   testView,
+  testCategory,
 };
 export default api;
