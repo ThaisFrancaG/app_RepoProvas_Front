@@ -7,14 +7,22 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import api from "../services/api";
 import useAuth from "../hooks/userAuth";
 import Link from "@mui/material/Link";
-
-function TestsCategories({ testList }) {
+interface Props {
+  testList: {
+    id: number;
+    name: string;
+    pdfUrl: string;
+  };
+  filter: string | null;
+}
+function TestsCategories(props: any) {
   const [expandedTest, setExpandedTest] = useState(null);
   const { auth } = useAuth();
   function handleChangeTest(id) {
     setExpandedTest(id);
   }
-  console.log(testList);
+  const { testList, filter } = props;
+
   async function handleTestClick(id: number) {
     try {
       await api.testView(auth, id);
@@ -56,6 +64,12 @@ function TestsCategories({ testList }) {
             </Typography>
 
             <Typography>Tests Views:{test.views}</Typography>
+
+            {filter === "teacher" ? (
+              <Typography>{test.teacherDiscipline.discipline.name} </Typography>
+            ) : (
+              <Typography>{test.teacherDiscipline.teacher.name} </Typography>
+            )}
           </AccordionDetails>
         </Accordion>
       ))}
@@ -77,10 +91,11 @@ function Categories({ categorieList, instructor }) {
   }, [expandedCategorie]);
 
   async function getInnerTestList() {
-    const innerList = await api.getInnerListTeachers(
+    const innerList = await api.testCategory(
       auth,
       instructor,
-      expandedCategorie
+      expandedCategorie,
+      "teacher"
     );
 
     setTestList(innerList);
@@ -103,12 +118,12 @@ function Categories({ categorieList, instructor }) {
               {item.name}
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              All tests from the {item.name}
+              All tests from the {item.name} category
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <TestsCategories testList={testList} />
+              <TestsCategories testList={testList} filter={"teacher"} />
             </Typography>
           </AccordionDetails>
         </Accordion>

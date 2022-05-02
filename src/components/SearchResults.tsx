@@ -23,10 +23,11 @@ interface Props {
       }
     | any;
   toSearch: string;
+  filter: any | string;
 }
 
 function SearchResultsMap(props: Props) {
-  const { searchResults, toSearch } = props;
+  const { searchResults, toSearch, filter } = props;
   const [categories, setCategories] = useState([]);
   const [expandedFilter, setExpandedFilter] = useState(null);
 
@@ -49,7 +50,7 @@ function SearchResultsMap(props: Props) {
       {searchResults.length === 0 ? (
         <Typography>There are no Tests from {toSearch} </Typography>
       ) : (
-        <TestsCategories testList={searchResults} />
+        <TestsCategories testList={searchResults} filter={filter} />
       )}
     </>
   );

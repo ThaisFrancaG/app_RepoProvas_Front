@@ -49,16 +49,41 @@ async function getFilteredTestsList(
 
   return list.data;
 }
-
-async function getFilterItems(token: string, filter: string) {
-  const config = authData(token);
-  const list = await axios.get(`${BASE_URL}/${filter}`, config);
-  return list.data;
-}
 async function getCategories(token: string) {
   const config = authData(token);
   const list = await axios.get(`${BASE_URL}/categories`, config);
 
+  return list.data;
+}
+
+async function getTerms(token: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/terms`, config);
+
+  return list.data;
+}
+
+async function testCategory(
+  token: string,
+  teacherId: number,
+  categoryId: number,
+  path: string
+) {
+  console.log("chegou api");
+  const config = authData(token);
+  const list = await axios.get(
+    `${BASE_URL}/categories/${path}/${teacherId}/${categoryId}/`,
+    config
+  );
+
+  console.log(list.data);
+
+  return list.data;
+}
+
+async function getFilterItems(token: string, filter: string) {
+  const config = authData(token);
+  const list = await axios.get(`${BASE_URL}/${filter}`, config);
   return list.data;
 }
 
@@ -110,11 +135,13 @@ const api = {
   logOut,
   getFilterItems,
   getCategories,
+  getTerms,
   getOuterListDisciplines,
   getInnerListDisciplines,
   getInnerListTeachers,
   getSearchableItems,
   getFilteredTestsList,
   testView,
+  testCategory,
 };
 export default api;

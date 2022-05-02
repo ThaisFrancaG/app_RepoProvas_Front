@@ -14,18 +14,8 @@ import api from "../services/api";
 import useAuth from "../hooks/userAuth";
 import { Categories, TestsCategories } from "./TestAccordions";
 
-interface Props {
-  filterItems:
-    | {
-        id: number;
-        name: string;
-        temId?: number;
-      }
-    | any;
-}
-
-function TeacherMap(props: Props) {
-  const { filterItems } = props;
+function TeacherMap() {
+  const [teachers, setTeachers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [outerTestList, setOuterTestList] = useState([]);
   const [testList, setTestList] = useState([]);
@@ -44,6 +34,7 @@ function TeacherMap(props: Props) {
     setExpandedCategorie(id);
   }
   useEffect(() => {
+    getTeachers();
     getCategories();
   }, [expandedFilter]);
 
@@ -51,10 +42,14 @@ function TeacherMap(props: Props) {
     const categorieList = await api.getCategories(auth);
     setCategories(categorieList);
   }
+  async function getTeachers() {
+    const teachersList = await api.getSearchableItems(auth, "teachers");
+    setTeachers(teachersList);
+  }
 
   return (
     <>
-      {filterItems.map((item: any) => (
+      {teachers.map((item: any) => (
         <Accordion
           sx={{ width: "100%" }}
           expanded={expandedFilter === item.id}
@@ -67,10 +62,10 @@ function TeacherMap(props: Props) {
             id="panel1bh-header"
           >
             <Typography sx={{ width: "33%", flexShrink: 0 }}>
-              {item.name}
+              {item.number}
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              All tests from the {item.name}
+              All tests from the instruction {item.name}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>

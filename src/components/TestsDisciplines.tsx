@@ -14,18 +14,7 @@ import api from "../services/api";
 import useAuth from "../hooks/userAuth";
 import { TestsCategories } from "./TestAccordions";
 
-interface Props {
-  filterItems:
-    | {
-        id: number;
-        name: string;
-        temId?: number;
-      }
-    | any;
-}
-
-function DisciplineMap(props: Props) {
-  const { filterItems } = props;
+function DisciplineMap() {
   const [categories, setCategories] = useState([]);
   const [outerTestList, setOuterTestList] = useState([]);
   const [testList, setTestList] = useState([]);
@@ -81,7 +70,8 @@ function DisciplineMap(props: Props) {
   }
   return (
     <>
-      {filterItems.map((item: any) => (
+      oi
+      {/* {filterItems.map((item: any) => (
         <div>
           <Accordion
             sx={{ width: "100%" }}
@@ -178,6 +168,7 @@ function DisciplineMap(props: Props) {
           </Accordion>
         </div>
       ))}
+    </> */}
     </>
   );
 }

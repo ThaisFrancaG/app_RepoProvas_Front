@@ -33,6 +33,7 @@ export default function TestsDisplay() {
   async function getList() {
     try {
       const searchItems = await api.getFilterItems(auth, filter);
+      console.log(searchItems);
       setItemsFilter(searchItems);
     } catch (error) {
       console.log(error);
@@ -50,11 +51,15 @@ export default function TestsDisplay() {
       />
       <style.MainContainer>
         {displaySearch ? (
-          <SearchResultsMap searchResults={searchResults} toSearch={toSearch} />
+          <SearchResultsMap
+            searchResults={searchResults}
+            toSearch={toSearch}
+            filter={filter}
+          />
         ) : filter === "disciplines" ? (
-          <DisciplineMap filterItems={filterItems} />
+          <DisciplineMap />
         ) : (
-          <TeacherMap filterItems={filterItems} />
+          <TeacherMap />
         )}
       </style.MainContainer>
       <MainFooter />
