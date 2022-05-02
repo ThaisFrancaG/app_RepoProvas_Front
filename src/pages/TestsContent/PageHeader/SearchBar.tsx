@@ -78,7 +78,7 @@ export default function SearchBar(props: Props) {
         }}
         id="controllable-states-demo"
         options={itemList}
-        sx={{ width: 300 }}
+        sx={{ width: 300, background: "#cc90e74b" }}
         renderInput={(params) => <TextField {...params} label="Search Here" />}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
@@ -88,7 +88,7 @@ export default function SearchBar(props: Props) {
       />
       <SearchRoundedIcon
         className="eventIcons"
-        sx={{ marginLeft: "10px" }}
+        sx={{ marginLeft: "10px", color: "#7857b1" }}
         onClick={() => handleSearch()}
       />
     </style.SearchBarContainer>
@@ -116,17 +116,17 @@ const Listbox = styled("ul")(({ theme }) => ({
   zIndex: 1,
   position: "absolute",
   listStyle: "none",
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: "#9575cd",
   overflow: "auto",
   maxHeight: 200,
   border: "1px solid #e36dee61",
   '& li[data-focus="true"]': {
     backgroundColor: "#9575cd",
-    color: "white",
+    color: "#9575cd",
     cursor: "pointer",
   },
   "& li:active": {
-    backgroundColor: "#2977f5",
-    color: "white",
+    backgroundColor: "#9575cd",
+    color: "#9575cd",
   },
 }));

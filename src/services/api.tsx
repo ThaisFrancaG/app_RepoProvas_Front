@@ -47,6 +47,8 @@ async function getCategories(token: string) {
 
   return list.data;
 }
+
+async function getItemsByLabel(token: string) {}
 async function getOuterListDisciplines(token: string, termId: number) {
   const config = authData(token);
   const list = await axios.get(`${BASE_URL}/${termId}/disciplines`, config);

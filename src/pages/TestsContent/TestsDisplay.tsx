@@ -1,12 +1,13 @@
 import useAuth from "../../hooks/userAuth";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import MainHeader from "./PageHeader/Header";
+import { MainHeader } from "./PageHeader/Header";
 import * as style from "./style";
 import api from "../../services/api";
 import { DisciplineMap } from "../../components/TestsDisciplines";
 import { TeacherMap } from "../../components/TestsTeachers";
 import { SearchResultsMap } from "../../components/SearchResults";
+import MainFooter from "../AddNewTest/Footer";
 
 export default function TestsDisplay() {
   const { auth } = useAuth();
@@ -56,6 +57,7 @@ export default function TestsDisplay() {
           <TeacherMap filterItems={filterItems} />
         )}
       </style.MainContainer>
+      <MainFooter />
     </>
   );
 }
