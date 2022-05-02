@@ -34,7 +34,7 @@ function SearchResultsMap(props: Props) {
   function handleChange(id) {
     setExpandedFilter(id);
   }
-
+  console.log(searchResults);
   useEffect(() => {
     getCategories();
   }, [expandedFilter]);
@@ -49,32 +49,7 @@ function SearchResultsMap(props: Props) {
       {searchResults.length === 0 ? (
         <Typography>There are no Tests from {toSearch} </Typography>
       ) : (
-        searchResults.map((item: any) => (
-          <Accordion
-            sx={{ width: "100%" }}
-            expanded={expandedFilter === item.id}
-            onClick={() => handleChange(item.id)}
-          >
-            <AccordionSummary
-              sx={{ backgroundColor: "#9575cd" }}
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
-            >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                {item.name}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                All tests from the {item.name}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                <Categories categorieList={categories} instructor={item.id} />
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))
+        <TestsCategories testList={searchResults} />
       )}
     </>
   );

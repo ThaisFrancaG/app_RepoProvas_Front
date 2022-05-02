@@ -14,7 +14,7 @@ function TestsCategories({ testList }) {
   function handleChangeTest(id) {
     setExpandedTest(id);
   }
-
+  console.log(testList);
   async function handleTestClick(id: number) {
     try {
       await api.testView(auth, id);
@@ -54,9 +54,7 @@ function TestsCategories({ testList }) {
                 PDF:{test.pdfUrl}
               </Link>
             </Typography>
-            <Typography>
-              Teacher:{test.teacherDiscipline.teacher.name}
-            </Typography>
+
             <Typography>Tests Views:{test.views}</Typography>
           </AccordionDetails>
         </Accordion>

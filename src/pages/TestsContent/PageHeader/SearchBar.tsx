@@ -52,7 +52,7 @@ export default function SearchBar(props: Props) {
     setSearchResults(filteredTestList);
     setDisplaySearch(true);
   }
-
+  console.log(filter);
   let itemList = [];
   const itemsOptions = filterItems.map((item) => itemList.push(item.name));
 

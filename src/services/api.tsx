@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5001";
+const BASE_URL = "http://localhost:5000";
 
 function authData(token) {
   return {
@@ -32,7 +32,21 @@ async function logOut(token: string) {
 
 async function getSearchableItems(token: string, filter: string) {
   const config = authData(token);
-  const list = await axios.get(`${BASE_URL}/search/${filter}`, config);
+  const list = await axios.get(`${BASE_URL}/filter/${filter}`, config);
+  return list.data;
+}
+
+async function getFilteredTestsList(
+  filter: string,
+  filterId: number,
+  token: string
+) {
+  const config = authData(token);
+  const list = await axios.get(
+    `${BASE_URL}/tests/${filter}/${filterId}`,
+    config
+  );
+
   return list.data;
 }
 
@@ -66,20 +80,6 @@ async function getInnerListDisciplines(
   const config = authData(token);
   const list = await axios.get(
     `${BASE_URL}/tests/discipline/${disciplineId}/${categorieId}`,
-    config
-  );
-
-  return list.data;
-}
-
-async function getFilteredTestsList(
-  filter: string,
-  filterId: number,
-  token: string
-) {
-  const config = authData(token);
-  const list = await axios.get(
-    `${BASE_URL}/tests/${filter}/${filterId}`,
     config
   );
 
