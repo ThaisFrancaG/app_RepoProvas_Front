@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function SearchOptions(props: Props) {
-  const [alignment, setAlignment] = React.useState("disciplines");
+  const [alignment, setAlignment] = React.useState("discipline");
   const { filter, setFilter } = props;
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,

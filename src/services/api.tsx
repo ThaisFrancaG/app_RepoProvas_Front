@@ -69,14 +69,12 @@ async function testCategory(
   categoryId: number,
   path: string
 ) {
-  console.log("chegou api");
+  alert(path);
   const config = authData(token);
   const list = await axios.get(
     `${BASE_URL}/categories/${path}/${teacherId}/${categoryId}/`,
     config
   );
-
-  console.log(list.data);
 
   return list.data;
 }
@@ -87,14 +85,13 @@ async function getFilterItems(token: string, filter: string) {
   return list.data;
 }
 
-async function getItemsByLabel(token: string) {}
-async function getOuterListDisciplines(token: string, termId: number) {
+async function getDisciplineByTerm(token: string, termId: number) {
   const config = authData(token);
   const list = await axios.get(`${BASE_URL}/${termId}/disciplines`, config);
-  const categories = list.data.categoriesList;
+
   const disciplines = list.data.disciplinesList.disciplinesList;
 
-  return { categories, disciplines };
+  return disciplines;
 }
 
 async function getInnerListDisciplines(
@@ -136,7 +133,7 @@ const api = {
   getFilterItems,
   getCategories,
   getTerms,
-  getOuterListDisciplines,
+  getDisciplineByTerm,
   getInnerListDisciplines,
   getInnerListTeachers,
   getSearchableItems,

@@ -30,6 +30,7 @@ function TestsCategories(props: any) {
       console.log(error);
     }
   }
+
   return (
     <>
       {testList.map((test) => (
@@ -65,10 +66,12 @@ function TestsCategories(props: any) {
 
             <Typography>Tests Views:{test.views}</Typography>
 
-            {filter === "teacher" ? (
+            {filter === "teachers" ? (
               <Typography>{test.teacherDiscipline.discipline.name} </Typography>
-            ) : (
+            ) : filter === "disciplines" ? (
               <Typography>{test.teacherDiscipline.teacher.name} </Typography>
+            ) : (
+              <Typography>Something went wrong </Typography>
             )}
           </AccordionDetails>
         </Accordion>
@@ -77,7 +80,7 @@ function TestsCategories(props: any) {
   );
 }
 
-function Categories({ categorieList, instructor }) {
+function Categories({ categorieList, filterId, filter }) {
   const [expandedCategorie, setExpandedCategorie] = useState(null);
   const [testList, setTestList] = useState([]);
   const { auth } = useAuth();
@@ -87,19 +90,33 @@ function Categories({ categorieList, instructor }) {
   }
 
   useEffect(() => {
-    getInnerTestList();
+    if (expandedCategorie !== null) {
+      getInnerTestList();
+    }
   }, [expandedCategorie]);
 
   async function getInnerTestList() {
-    const innerList = await api.testCategory(
-      auth,
-      instructor,
-      expandedCategorie,
-      "teacher"
-    );
+    if (filter === "teachers") {
+      const innerList = await api.testCategory(
+        auth,
+        filterId,
+        expandedCategorie,
+        "teacher"
+      );
+      setTestList(innerList);
+    }
 
-    setTestList(innerList);
+    if (filter === "disciplines") {
+      const innerList = await api.testCategory(
+        auth,
+        filterId,
+        expandedCategorie,
+        "discipline"
+      );
+      setTestList(innerList);
+    }
   }
+
   return (
     <>
       {categorieList.map((item) => (
@@ -123,7 +140,11 @@ function Categories({ categorieList, instructor }) {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <TestsCategories testList={testList} filter={"teacher"} />
+              {testList.length === 0 ? (
+                "There are no tests of this category"
+              ) : (
+                <TestsCategories testList={testList} filter={filter} />
+              )}
             </Typography>
           </AccordionDetails>
         </Accordion>

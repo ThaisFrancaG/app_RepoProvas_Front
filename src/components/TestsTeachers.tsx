@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ListSubheader from "@mui/material/ListSubheader";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
+
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -14,15 +9,13 @@ import api from "../services/api";
 import useAuth from "../hooks/userAuth";
 import { Categories, TestsCategories } from "./TestAccordions";
 
-function TeacherMap() {
+function TeacherMap({ filter }) {
   const [teachers, setTeachers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [outerTestList, setOuterTestList] = useState([]);
   const [testList, setTestList] = useState([]);
   const [expandedFilter, setExpandedFilter] = useState(null);
-  const [expandedOuter, setExpandedOuter] = useState(null);
   const [expandedCategorie, setExpandedCategorie] = useState(null);
-  const [expandedInner, setExpandedInner] = useState(null);
 
   const { auth } = useAuth();
 
@@ -70,7 +63,11 @@ function TeacherMap() {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <Categories categorieList={categories} instructor={item.id} />
+              <Categories
+                categorieList={categories}
+                filterId={item.id}
+                filter={filter}
+              />
             </Typography>
           </AccordionDetails>
         </Accordion>

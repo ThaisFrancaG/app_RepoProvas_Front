@@ -17,8 +17,6 @@ export function TestAddForm() {
   const [testName, setTestName] = useState("");
   const [testURL, setTestURL] = useState("");
 
-  console.log(testName);
-
   useEffect(() => {}, []);
   return (
     <>

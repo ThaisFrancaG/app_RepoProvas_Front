@@ -4,7 +4,7 @@ import * as style from "./style";
 import api from "../../../services/api";
 import useAuth from "../../../hooks/userAuth";
 import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
+
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAutocomplete } from "@mui/base/AutocompleteUnstyled";
 import { styled } from "@mui/material/styles";
@@ -52,7 +52,7 @@ export default function SearchBar(props: Props) {
     setSearchResults(filteredTestList);
     setDisplaySearch(true);
   }
-  console.log(filter);
+
   let itemList = [];
   const itemsOptions = filterItems.map((item) => itemList.push(item.name));
 

@@ -26,19 +26,6 @@ export default function TestsDisplay() {
     }
   }, []);
 
-  useEffect(() => {
-    getList();
-  }, [filter]);
-
-  async function getList() {
-    try {
-      const searchItems = await api.getFilterItems(auth, filter);
-      console.log(searchItems);
-      setItemsFilter(searchItems);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   return (
     <>
       <MainHeader
@@ -57,9 +44,9 @@ export default function TestsDisplay() {
             filter={filter}
           />
         ) : filter === "disciplines" ? (
-          <DisciplineMap />
+          <DisciplineMap filter={filter} />
         ) : (
-          <TeacherMap />
+          <TeacherMap filter={filter} />
         )}
       </style.MainContainer>
       <MainFooter />
