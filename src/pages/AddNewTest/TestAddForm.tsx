@@ -21,6 +21,8 @@ export function TestAddForm() {
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [submitError, setSubmitError] = useState(false);
+  const [submitSucess, setSubmitSucess] = useState(false);
+
   const [categories, setCategories] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [chosenTeacher, setChosenTeacher] = useState(null);
@@ -54,6 +56,8 @@ export function TestAddForm() {
 
   async function handleClick() {
     setSubmitError(false);
+    setSubmitSucess(false);
+
     setLoading(true);
     if (
       chosenCategory === null ||
@@ -75,7 +79,8 @@ export function TestAddForm() {
     };
 
     try {
-      await checkTestInfo(testInfo);
+      await checkTestInfo(testInfo, auth);
+      setSubmitSucess(true);
     } catch (error) {
       if (error.response) {
         setAlertMessage(error.response.data);
@@ -180,6 +185,11 @@ export function TestAddForm() {
         <Collapse in={submitError}>
           <Alert variant="filled" severity="error">
             {alertMessage}
+          </Alert>
+        </Collapse>
+        <Collapse in={submitSucess}>
+          <Alert variant="filled" severity="success">
+            Thank you for sharing this test with us!!
           </Alert>
         </Collapse>
       </MainContainer>

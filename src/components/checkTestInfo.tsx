@@ -1,3 +1,5 @@
+import api from "../services/api";
+
 interface TestInfo {
   name: string;
   pdfUrl: string;
@@ -6,11 +8,11 @@ interface TestInfo {
   disciplineId: number;
 }
 
-async function checkTestInfo(testInfo: TestInfo) {
-  const { name, pdfUrl, categoryId, teacherId, disciplineId } = testInfo;
+async function checkTestInfo(testInfo: TestInfo, auth: string) {
+  const { name, pdfUrl } = testInfo;
 
   const isUrl = require("is-valid-http-url");
-  if (name.length < 2 || pdfUrl.length === 0) {
+  if (name.length < 3 || pdfUrl.length === 0) {
     throw {
       type: "incomplete",
       message: "Please, fill all fields to send your test",
@@ -31,6 +33,8 @@ async function checkTestInfo(testInfo: TestInfo) {
       };
     }
   }
+
+  await api.newTest(auth, testInfo);
 }
 
 export { checkTestInfo };
