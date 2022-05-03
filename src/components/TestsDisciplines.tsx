@@ -44,7 +44,6 @@ function DisciplineMap({ filter }) {
     setCategories(categorieList);
   }
   async function getDisciplines() {
-    console.log(expandedTerm);
     const disciplinesList = await api.getDisciplineByTerm(auth, expandedTerm);
     setDisciplines(disciplinesList);
   }

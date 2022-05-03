@@ -2,12 +2,19 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:5000";
 
-function authData(token) {
+function authData(token: string) {
   return {
     headers: {
       authorization: `Bearer ${token}`,
     },
   };
+}
+interface TestInfo {
+  name: string;
+  pdfUrl: string;
+  categoryId: number;
+  teacherId: number;
+  disciplineId: number;
 }
 
 interface AuthType {
@@ -126,6 +133,14 @@ async function testView(token: string, testId: number) {
   const config = authData(token);
   await axios.patch(`${BASE_URL}/tests/views/${testId}`, {}, config);
 }
+
+async function newTest(token: string, testInfo: TestInfo) {
+  alert("ap");
+  console.log(token);
+  console.log(testInfo);
+  const config = authData(token);
+  await axios.post(`${BASE_URL}/tests/add`, testInfo, config);
+}
 const api = {
   signUp,
   signIn,
@@ -140,5 +155,6 @@ const api = {
   getFilteredTestsList,
   testView,
   testCategory,
+  newTest,
 };
 export default api;
