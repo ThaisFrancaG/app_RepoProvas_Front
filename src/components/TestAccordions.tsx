@@ -53,7 +53,7 @@ function TestsCategories(props: any) {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography variant="h5">
+            <Typography sx={{ size: "16" }}>
               <Link
                 onClick={() => handleTestClick(test.id)}
                 href={test.pdfUrl}
@@ -67,9 +67,13 @@ function TestsCategories(props: any) {
             <Typography>Tests Views:{test.views}</Typography>
 
             {filter === "teachers" ? (
-              <Typography>{test.teacherDiscipline.discipline.name} </Typography>
+              <Typography>
+                Discipline: {test.teacherDiscipline.discipline.name}{" "}
+              </Typography>
             ) : filter === "disciplines" ? (
-              <Typography>{test.teacherDiscipline.teacher.name} </Typography>
+              <Typography>
+                Instructor: {test.teacherDiscipline.teacher.name}{" "}
+              </Typography>
             ) : (
               <Typography>Something went wrong </Typography>
             )}
